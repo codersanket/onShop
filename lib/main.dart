@@ -32,10 +32,15 @@ class MyApp extends StatelessWidget {
         textTheme: TextTheme(
           headline4: TextStyle(
             color: Colors.black,
-            fontSize: 30,
+            fontSize: 28,
             fontWeight: FontWeight.w500
           )
         ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: Colors.black,
+
+
+        )
 
       ),
       debugShowCheckedModeBanner: false,
