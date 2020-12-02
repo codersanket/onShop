@@ -25,19 +25,23 @@ class _homeState extends State<home> {
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection("Category").snapshots(),
         builder: (context, snapshot) {
-          final data=snapshot.data.docs;
-          return snapshot.connectionState==ConnectionState.done?VxBox(
-              child: HStack([
-            "Category".text.textStyle(Theme.of(context).textTheme.headline4).make(),
+
+          return snapshot.data != null?VxBox(
+              child: VStack([
+              "Category".text.textStyle(Theme.of(context).textTheme.headline4).make(),
             VxBox(
                 child: GridView.builder(
+                  scrollDirection: Axis.vertical,
               gridDelegate:
                   SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
               itemBuilder: (context, index) {
-                return Text(data[index]["image"]);
+                return FadeInImage(placeholder:AssetImage("assets/images/placeholder.jpg"),image: NetworkImage(snapshot.data.docs[index]["image"]),
+
+
+                );
               },
-	          itemCount:data.length,
-            )).make(),
+	          itemCount:snapshot.data.docs.length,
+            )).size(context.screenWidth, context.percentHeight*50).make(),
           ])).make().pOnly(left: 20, top: 30):CircularProgressIndicator().centered();
         }
       ),
