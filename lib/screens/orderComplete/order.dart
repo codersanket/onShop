@@ -33,6 +33,8 @@ class _orderCompleteState extends State<orderComplete> {
       });
     });
     widget.isBuying ? directBuy() : removeCart();
+  backToPage(context);
+    
     super.initState();
   }
 
@@ -258,6 +260,12 @@ class _orderCompleteState extends State<orderComplete> {
             .update({"order": id});
       });
     });
+    // backToPage(context);
+  }
+
+  backToPage(context)async{
+  
+   await Future.delayed(Duration( seconds: 7)).then((value) => Navigator.pop(context));
   }
 
   @override

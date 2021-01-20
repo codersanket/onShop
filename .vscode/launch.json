@@ -5,13 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Dart",
-            "type": "dart",
+            "name": "onShop",
             "request": "launch",
-            "program": "bin/main.dart"
+            "type": "dart"
         },
         {
-            "name": "onshop",
+            "name": "flutter_app",
+            "cwd": "flutter_app",
             "request": "launch",
             "type": "dart"
         }

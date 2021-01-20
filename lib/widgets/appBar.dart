@@ -19,64 +19,73 @@ class appBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-        title: RichText(
-            text: TextSpan(
+        title: Row(
           children: [
-            TextSpan(
-              text: "O",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
-                  color: Colors.yellow.shade800),
-            ),
-            TextSpan(
-              text: "nMarke",
-              style: TextStyle(
-                fontSize: 28,
-                color: Colors.black,
-              ),
-            ),
-            TextSpan(
-              text: "T",
-              style: TextStyle(
-                letterSpacing: -6,
-                fontSize: 30,
-                color: Colors.black,
-              ),
-            ),
+            RichText(
+                text: TextSpan(
+              children: [
+                TextSpan(
+                  text: "O",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: Colors.yellow.shade800),
+                ),
+                TextSpan(
+                  text: "nMarke",
+                  style: TextStyle(
+                    fontSize: 28,
+                    color: Colors.black,
+                  ),
+                ),
+                TextSpan(
+                  text: "T",
+                  style: TextStyle(
+                    letterSpacing: -6,
+                    fontSize: 30,
+                    color: Colors.black,
+                  ),
+                ),
+              ],
+            )).pOnly(top:10),
+            ".store".text.semiBold.size(14).make().pOnly(bottom:5)
           ],
-        )),
+        crossAxisAlignment: CrossAxisAlignment.end,
+        
+        ),
         // title: Image.asset("assets/images/appLogo.png").box.width(170).make(),
         actions: [
-          GestureDetector(
-              onTap: () => Navigator.push(context,
+          MaterialButton(
+            
+              onPressed: () => Navigator.push(context,
                   CupertinoPageRoute(builder: (sontext) => wishListScreen())),
               child: FaIcon(
                 FontAwesomeIcons.heart,
                 color: Colors.black,
                 size: 27,
-              ).centered().pOnly(
-                    right: 20,
-                  )),
+              ).centered()),
           isHomepage
               ? Container()
               : GetBuilder<UserController>(
                   initState: userController.setProfile(),
-                  builder: (val) => GestureDetector(
+                  builder: (val) => InkWell(
+
                     onTap: () {
                       Navigator.of(context).pushNamed("/user");
                     },
-                    child: FaIcon(
-                      FontAwesomeIcons.user,
-                      size: 27,
-                      color: Colors.black,
+                    child: ClipOval(
+                      child: FaIcon(
+                        FontAwesomeIcons.user,
+                        size: 27,
+                        color: Colors.black,
+                      ).centered(),
                     ),
                     // child: CircleAvatar(
                     // backgroundImage: NetworkImage(val.user.photoURL != null
                     //     ? val.user.photoURL
                     //     : "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F7%2F7e%2FCircle-icons-profile.svg%2F1200px-Circle-icons-profile.svg.png&f=1&nofb=1"),
                     // ).pOnly(right: 10),
-                  ).centered().pOnly(right: 20),
+                  ).pOnly(right:20),
                 ),
         ]);
   }

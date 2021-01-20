@@ -12,6 +12,8 @@ import 'package:onshop/widgets/textField.dart';
 
 import 'package:sort_price/sort_price.dart';
 import 'package:velocity_x/velocity_x.dart';
+import './enterAdress.dart';
+import '../../widgets/appBar.dart';
 
 class information extends StatefulWidget {
   static const routeName = '/information';
@@ -51,299 +53,174 @@ class _informationState extends State<information> {
     return Scaffold(
       backgroundColor: Colors.white,
       key: _globalKey,
-      appBar: AppBar(
-        title: "Order Summary".text.make(),
-        elevation: 6,
-      ),
-      body: StreamBuilder<DocumentSnapshot>(
-          stream: FirebaseFirestore.instance
-              .collection("Users")
-              .doc(_user.uid)
-              .snapshots(),
-          builder: (context, snapshot) {
-            return snapshot.connectionState == ConnectionState.active
-                ?
-                // _fullName.text = snapshot.data.data()["Full Name"] ?? "";
-                // _phoneNumber.text = snapshot.data.data()["Phone"] ?? "";
-                // _pinCode.text = snapshot.data.data()["pincode"] ?? "";
-                // _state.text = snapshot.data.data()["state"] ?? "";
-                // _city.text = snapshot.data.data()["city"] ?? "";
-                // _houseNumber.text = snapshot.data.data()["house_no"] ?? "";
-                // _roadName.text = snapshot.data.data()["roadName"] ?? "";
-                Column(
-                    children: [
-                      SingleChildScrollView(
-                        child: VStack([
-                          Card(
-                            elevation: 6,
-                            child: VxBox(
-                                    child: snapshot.data.exists
-                                        ? ZStack([
-                                            VStack(
-                                              [
-                                                "Delivery Address"
-                                                    .text
-                                                    .xl2
-                                                    .bold
-                                                    .make()
-                                                    .pOnly(left: 5),
-                                                Divider(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.4),
-                                                  height: 20,
-                                                  thickness: 1.5,
-                                                ),
-                                                "${snapshot.data.data()["Full Name"]}"
-                                                    .text
-                                                    .semiBold
-                                                    .xl
-                                                    .make()
-                                                    .pOnly(left: 20),
-                                                "Phone No.: ${snapshot.data.data()["Phone"]}"
-                                                    .text
-                                                    .semiBold
-                                                    .xl
-                                                    .make()
-                                                    .pOnly(left: 20),
-                                                "Address: ${snapshot.data.data()["Address"]}"
-                                                    .text
-                                                    .semiBold
-                                                    .xl
-                                                    .make()
-                                                    .pOnly(left: 20),
-                                                "State: ${snapshot.data.data()["state"]}"
-                                                    .text
-                                                    .semiBold
-                                                    .xl
-                                                    .make()
-                                                    .pOnly(left: 20),
-                                                "City: ${snapshot.data.data()["city"]}"
-                                                    .text
-                                                    .semiBold
-                                                    .xl
-                                                    .make()
-                                                    .pOnly(left: 20),
-                                                "PinCode:${snapshot.data.data()["pincode"]}"
-                                                    .text
-                                                    .semiBold
-                                                    .xl
-                                                    .make()
-                                                    .pOnly(left: 20),
-                                                "Locality: ${snapshot.data.data()["Locality"]}"
-                                                    .text
-                                                    .semiBold
-                                                    .xl
-                                                    .make()
-                                                    .pOnly(left: 20)
-                                              ],
-                                              alignment:
-                                                  MainAxisAlignment.start,
-                                              crossAlignment:
-                                                  CrossAxisAlignment.start,
-                                            ).pOnly(bottom: 40, top: 10),
-                                            Positioned(
-                                              right: 5,
-                                              bottom: 5,
-                                              child: RaisedButton(
-                                                shape: Vx.roundedLg,
-                                                color: Colors.blueAccent,
-                                                child: "Edit".text.white.make(),
-                                                onPressed: () {
-                                                  Navigator.of(context).push(
-                                                      CupertinoPageRoute(
-                                                          builder: (context) =>
-                                                              changeAdress()));
-                                                },
-                                              ),
-                                            ),
-                                          ])
-                                        : VStack([
-                                            "Delivery Address"
-                                                .text
-                                                .xl2
-                                                .bold
-                                                .make()
-                                                .pOnly(left: 5),
-                                            Divider(
-                                              color:
-                                                  Colors.grey.withOpacity(0.4),
-                                              height: 20,
-                                              thickness: 1.5,
-                                            ),
-                                            RaisedButton(
-                                              shape: Vx.roundedLg,
-                                              color: Colors.blueAccent,
-                                              child: "Add Adresss"
-                                                  .text
-                                                  .white
-                                                  .make(),
-                                              onPressed: () {
-                                                Navigator.of(context).push(
-                                                    CupertinoPageRoute(
-                                                        builder: (context) =>
-                                                            changeAdress()));
-                                              },
-                                            ).centered(),
-                                          ]))
-                                .width(context.screenWidth)
-                                .make(),
-                          ).pSymmetric(h: 20),
-                          !widget.buy
-                              ? Container()
-                              : Card(
-                                  elevation: 6,
-                                  child: HStack(
-                                    [
-                                      Image.network(
-                                        widget.documents["image"]["0"],
-                                        fit: BoxFit.contain,
-                                      )
-                                          .box
-                                          .width(context.percentWidth * 40)
-                                          .make(),
-                                      VStack([
-                                        "${widget.documents["title"]}"
-                                            .text
-                                            .xl
-                                            .bold
-                                            .make(),
-                                        "₹${widget.documents["price"]}"
-                                            .text
-                                            .xl
-                                            .bold
-                                            .make(),
-                                      ])
-                                    ],
-                                    alignment: MainAxisAlignment.start,
-                                    crossAlignment: CrossAxisAlignment.center,
+      appBar: appBar(),
+      body: Container(
+        margin: EdgeInsets.only(top: 10, left: 7, right: 7, bottom: 10),
+        decoration: BoxDecoration(
+           color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black,
+                      blurRadius: 0.1,
+                      spreadRadius: 1.5,
+                    )
+                  ],
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(55),
+                    topRight: Radius.circular(55),
+                    bottomLeft: Radius.circular(55),
+                    bottomRight: Radius.circular(55),
+                  ),
+                ),
+        
+        child: Column(
+          children:[
+                      !widget.buy
+                              ? 
+                              Container()
+                                : Card(
+                                  shape: Vx.roundedSm,
+                                    elevation: 6,
+                                    child: HStack(
+                                      [
+                                        Image.network(
+                                          widget.documents["image"]["0"],
+                                          fit: BoxFit.contain,
+                                        )
+                                            .box
+                                            .width(context.percentWidth * 40)
+                                            .make().pOnly(right:20),
+                                        VStack([
+                                          
+                                          "${widget.documents["title"]}"
+                                          .text
+                                          .xl
+                                          .bold
+                                          .make().box.width(context.percentWidth*30).make(),
+                                          "₹${widget.documents["price"]}"
+                                              .text
+                                              .xl
+                                              .bold
+                                              .make(),
+                                        ])
+                                      ],
+                                      alignment: MainAxisAlignment.start,
+                                      crossAlignment: CrossAxisAlignment.center,
+                                    ),
+                                  )
+                                    .pSymmetric(h: 20, v: 10)
+                                    .box
+                                    .height(context.percentHeight * 20)
+                                    .width(context.screenWidth)
+                                    .make(),
+                            Card(
+                               shape: Vx.roundedSm,
+                                elevation: 6,
+                                child: VStack([
+                                  "Price Details"
+                                      .text
+                                      .xl2
+                                      .bold
+                                      .make()
+                                      .pOnly(left: 5, top: 10),
+                                  Divider(
+                                    color: Colors.grey.withOpacity(0.4),
+                                    height: 20,
+                                    thickness: 1.5,
                                   ),
-                                )
-                                  .pSymmetric(h: 20, v: 10)
-                                  .box
-                                  .height(context.percentHeight * 20)
-                                  .width(context.screenWidth)
+                                  Row(
+                                    children: [
+                                      "Price:".text.xl.semiBold.make(),
+                                      "₹${sortPrice(int.parse(widget.total_price))}"
+                                          .text
+                                          .xl
+                                          .semiBold
+                                          .make(),
+                                    ],
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                  ).pSymmetric(h: 10),
+                                  (30).heightBox,
+                                  Row(
+                                    children: [
+                                      "Delivery Charges:".text.xl.semiBold.make(),
+                                      widget.buy
+                                          ? "₹${sortPrice(widget.documents["Delivery Charges"])}"
+                                              .text
+                                              .xl
+                                              .semiBold
+                                              .make()
+                                          : Obx(() =>
+                                              "₹${sortPrice(cart.deliveryCharges.value)}"
+                                                  .text
+                                                  .xl
+                                                  .semiBold
+                                                  .make()),
+                                    ],
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                  ).pSymmetric(h: 10),
+                                  Divider(
+                                    color: Colors.grey.withOpacity(0.4),
+                                    height: 20,
+                                    thickness: 1.5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      "Total Amount:".text.xl2.semiBold.make(),
+                                      widget.buy
+                                          ? "₹${sortPrice(int.parse(widget.total_price) + widget.documents["Delivery Charges"])}"
+                                              .text
+                                              .xl2
+                                              .semiBold
+                                              .make()
+                                          : Obx(() =>
+                                              "₹${sortPrice(cart.deliveryCharges.value + int.parse(widget.total_price))}"
+                                                  .text
+                                                  .xl2
+                                                  .semiBold
+                                                  .make()),
+                                    ],
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                  ).pSymmetric(h: 10, v: 10),
+                                ])).pSymmetric(h: 20),
+                          
+                        
+                        VxBox(
+                          child: Card(
+                            shape: Vx.roundedLg,
+                            color: Colors.blueAccent,
+                            elevation: 6,
+                            child: ListTile(
+                              onTap: () async {
+                                
+                                  Navigator.pushReplacement(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (context) =>enterAdress(
+                                            total_price: widget.total_price,
+                                            buy: widget.buy,
+                                            documents:widget.documents
+                                          ) ));
+                                
+                              },
+                              title: "Payment On Delivery"
+                                  .text
+                                  .white
+                                  .xl2
+                                  .bold
                                   .make(),
-                          Card(
-                              elevation: 6,
-                              child: VStack([
-                                "Price Details"
-                                    .text
-                                    .xl2
-                                    .bold
-                                    .make()
-                                    .pOnly(left: 5, top: 10),
-                                Divider(
-                                  color: Colors.grey.withOpacity(0.4),
-                                  height: 20,
-                                  thickness: 1.5,
-                                ),
-                                Row(
-                                  children: [
-                                    "Price:".text.xl.semiBold.make(),
-                                    "₹${sortPrice(int.parse(widget.total_price))}"
-                                        .text
-                                        .xl
-                                        .semiBold
-                                        .make(),
-                                  ],
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                ).pSymmetric(h: 10),
-                                (30).heightBox,
-                                Row(
-                                  children: [
-                                    "Delivery Charges:".text.xl.semiBold.make(),
-                                    widget.buy
-                                        ? "₹${sortPrice(widget.documents["Delivery Charges"])}"
-                                            .text
-                                            .xl
-                                            .semiBold
-                                            .make()
-                                        : Obx(() =>
-                                            "₹${sortPrice(cart.deliveryCharges.value)}"
-                                                .text
-                                                .xl
-                                                .semiBold
-                                                .make()),
-                                  ],
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                ).pSymmetric(h: 10),
-                                Divider(
-                                  color: Colors.grey.withOpacity(0.4),
-                                  height: 20,
-                                  thickness: 1.5,
-                                ),
-                                Row(
-                                  children: [
-                                    "Total Amount:".text.xl2.semiBold.make(),
-                                    widget.buy
-                                        ? "₹${sortPrice(int.parse(widget.total_price) + widget.documents["Delivery Charges"])}"
-                                            .text
-                                            .xl2
-                                            .semiBold
-                                            .make()
-                                        : Obx(() =>
-                                            "₹${sortPrice(cart.deliveryCharges.value + int.parse(widget.total_price))}"
-                                                .text
-                                                .xl2
-                                                .semiBold
-                                                .make()),
-                                  ],
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                ).pSymmetric(h: 10, v: 10),
-                              ])).pSymmetric(h: 20),
-                        ]),
-                      ).expand(),
-                      VxBox(
-                        child: Card(
-                          shape: Vx.roundedLg,
-                          color: Colors.blueAccent,
-                          elevation: 6,
-                          child: ListTile(
-                            onTap: () async {
-                              if (!snapshot.data.exists) {
-                                Scaffold.of(context).showSnackBar(SnackBar(
-                                    content:
-                                        "Enter Address First".text.make()));
-                              } else {
-                                Navigator.pushReplacement(
-                                    context,
-                                    CupertinoPageRoute(
-                                        builder: (context) => orderComplete(
-                                              totalPrice: widget.buy
-                                                  ? (int.parse(widget
-                                                              .total_price) +
-                                                          widget.documents[
-                                                              "Delivery Charges"])
-                                                      .toString()
-                                                  : (cart.deliveryCharges
-                                                              .value +
-                                                          int.parse(widget
-                                                              .total_price))
-                                                      .toString(),
-                                              documentSnapshot:
-                                                  widget.documents,
-                                              isBuying: widget.buy,
-                                            )));
-                              }
-                            },
-                            title: "Payment On Delivery"
-                                .text
-                                .white
-                                .xl2
-                                .bold
-                                .make(),
-                            trailing: Icon(
-                              Icons.arrow_forward_ios,
-                              color: Colors.white,
-                            ),
-                          ).centered(),
-                        ).pSymmetric(h: 20),
-                      ).make().h(70)
-                    ],
-                  )
+                              trailing: Icon(
+                                Icons.arrow_forward_ios,
+                                color: Colors.white,
+                              ),
+                            ).centered(),
+                          ).pSymmetric(h: 20),
+                        ).make().h(70)
+                      ],
+                    ),
+      )
 
                 // ? SingleChildScrollView(
                 //     child: Form(
@@ -493,8 +370,9 @@ class _informationState extends State<information> {
                 //       ),
                 //     ),
                 //   )
-                : CircularProgressIndicator().centered();
-          }),
-    );
+                
+          
+          );
+    
   }
 }

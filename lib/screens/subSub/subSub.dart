@@ -39,20 +39,27 @@ class _subSubState extends State<subSub> {
   }
 
   Future<void> addToWishList(QueryDocumentSnapshot snapshot) async {
-    return await FirebaseFirestore.instance
+
+      print(snapshot.data()["id"]);
+     await FirebaseFirestore.instance
         .collection("wishlist")
         .doc(_user.uid)
         .collection("Items")
-        .doc(snapshot["title"])
+        .doc(snapshot["id"])
         .set(snapshot.data());
+
+
+ 
+
+
   }
 
   Future<void> deleteWishlist(QueryDocumentSnapshot snapshot) async {
-    return await FirebaseFirestore.instance
+     await FirebaseFirestore.instance
         .collection("wishlist")
         .doc(_user.uid)
         .collection("Items")
-        .doc(snapshot["title"])
+        .doc(snapshot["id"])
         .delete();
   }
 
@@ -63,66 +70,70 @@ class _subSubState extends State<subSub> {
       body: parent == null
           ? CircularProgressIndicator().centered()
           : parent != 1
-              ? StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection("Items")
-                      .where("Q", isNotEqualTo: 0)
-                      .where("parent", isEqualTo: parent)
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    return !snapshot.hasData
-                        ? CircularProgressIndicator().centered()
-                        : VxBox(
-                            child: CustomScrollView(
-                              slivers: [
-                                SliverList(
-                                  delegate: SliverChildListDelegate(
-                                    [
-                                      top(widget.subCategory, context)
-                                          .box
-                                          .height(context.percentHeight * 30)
-                                          .make(),
-                                      middle(widget.subCategory, context)
-                                          .box
-                                          .height(context.percentHeight * 15)
-                                          .make()
-                                          .pOnly(left: 10),
-                                      "Our Best Products:-"
-                                          .text
-                                          .xl2
-                                          .bold
-                                          .make()
-                                          .pOnly(left: 10),
-                                    ],
-                                  ),
-                                ),
-                                SliverGrid(
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                          childAspectRatio: 0.8,
-                                          crossAxisCount: 2,
-                                          crossAxisSpacing: 10,
-                                          mainAxisSpacing: 10),
-                                  delegate: SliverChildBuilderDelegate(
-                                      (context, index) => GestureDetector(
-                                            onTap: () => Navigator.push(
-                                                context,
-                                                CupertinoPageRoute(
-                                                    builder: (context) =>
-                                                        detailPage(
-                                                          index:
-                                                              index.toString(),
-                                                          details: snapshot
-                                                              .data.docs[index],
-                                                        ))),
-                                            child: VStack(
-                                              [
-                                                Expanded(
-                                                  child: ZStack(
-                                                    [
-                                                      Hero(
-                                                        tag: index,
-                                                        child: VxBox()
+              ? Stack(
+                children: [
+                  StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection("Items")
+                          .where("Q", isNotEqualTo: 0)
+                          .where("parent", isEqualTo: parent)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        return !snapshot.hasData
+                            ? CircularProgressIndicator().centered()
+                            : VxBox(
+                                child: CustomScrollView(
+                                    physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                                 
+                                  cacheExtent: 9999,
+                                  slivers: [
+                                    SliverList(
+                                      delegate: SliverChildListDelegate(
+                                        [
+                                          top(widget.subCategory, context)
+                                             ,
+                                              (context.percentHeight*2).heightBox,
+                                          middle(widget.subCategory, context)
+                                              .box
+                                              .height(context.percentHeight * 18)
+                                              .make()
+                                              .pOnly(left: 10),
+                                          "Our Best Products:-"
+                                              .text
+                                              .xl2
+                                              .bold
+                                              .make()
+                                              .pOnly(left: 10),
+                                        ],
+                                      ),
+                                    ),
+                                    SliverGrid(
+                                      
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                              childAspectRatio: 0.7,
+                                              crossAxisCount: 2,
+                                              crossAxisSpacing: 5,
+                                              mainAxisSpacing: 5 ),
+                                      delegate: SliverChildBuilderDelegate(
+                                          
+                                          (context, index) => GestureDetector(
+                                                onTap: () => Navigator.push(
+                                                    context,
+                                                    CupertinoPageRoute(
+                                                        builder: (context) =>
+                                                            detailPage(
+                                                              index:
+                                                                  index.toString(),
+                                                              details: snapshot
+                                                                  .data.docs[index],
+                                                            ))),
+                                                child: VStack(
+                                                  [
+                                                    ZStack(
+                                                      
+                                                      [
+                                                        VxBox()
                                                             .white
                                                             .rounded
                                                             .shadowLg
@@ -135,120 +146,139 @@ class _subSubState extends State<subSub> {
                                                                           .docs[index]["image"]["0"],
                                                                     ),
                                                                     fit: BoxFit
-                                                                        .cover))
+                                                                        .fitHeight))
                                                             .make(),
-                                                      ),
-                                                      StreamBuilder<
-                                                              QuerySnapshot>(
-                                                          stream:
-                                                              FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                      "wishlist")
-                                                                  .doc(
-                                                                      _user.uid)
-                                                                  .collection(
-                                                                      "Items")
-                                                                  .snapshots(),
-                                                          builder:
-                                                              (context, snap) {
-                                                            return snap.connectionState ==
-                                                                    ConnectionState
-                                                                        .active
-                                                                ? Positioned(
-                                                                    right: 0,
-                                                                    child:
-                                                                        IconButton(
-                                                                      icon: !snap.data.docs.any((element) =>
-                                                                              element.data()["id"] ==
-                                                                              snapshot.data.docs[index][
-                                                                                  "id"])
-                                                                          ? FaIcon(FontAwesomeIcons
-                                                                              .heart)
-                                                                          : FaIcon(
-                                                                              FontAwesomeIcons.solidHeart),
-                                                                      color: Colors
-                                                                          .redAccent,
-                                                                      onPressed:
-                                                                          () async {
-                                                                        print(!snap
-                                                                            .data
-                                                                            .docs
-                                                                            .any((element) =>
+                                                        StreamBuilder<
+                                                                QuerySnapshot>(
+                                                            stream:
+                                                                FirebaseFirestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        "wishlist")
+                                                                    .doc(
+                                                                        _user.uid)
+                                                                    .collection(
+                                                                        "Items")
+                                                                    .snapshots(),
+                                                            builder:
+                                                                (context, snap) {
+                                                              return snap.connectionState ==
+                                                                      ConnectionState
+                                                                          .active
+                                                                  ? Positioned(
+                                                                      right: 0,
+                                                                      child:
+                                                                          IconButton(
+                                                                        icon: !snap.data.docs.any((element) =>
                                                                                 element.data()["id"] ==
-                                                                                snapshot.data.docs[index]["id"]));
-                                                                        !(snap.data.docs.any((element) =>
-                                                                                element.data()["id"] ==
-                                                                                snapshot.data.docs[index]["id"]))
-                                                                            ? addToWishList(snapshot.data.docs[index])
-                                                                            : deleteWishlist(snapshot.data.docs[index]);
-                                                                      },
-                                                                    )
+                                                                                snapshot.data.docs[index][
+                                                                                    "id"])
+                                                                            ? FaIcon(FontAwesomeIcons
+                                                                                .heart)
+                                                                            : FaIcon(
+                                                                                FontAwesomeIcons.solidHeart),
+                                                                        color: Colors
+                                                                            .redAccent,
+                                                                        onPressed:
+                                                                            () async {
+                                                                          print(!snap
+                                                                              .data
+                                                                              .docs
+                                                                              .any((element) =>
+                                                                                  element.data()["id"] ==
+                                                                                  snapshot.data.docs[index]["id"]));
+                                                                          !(snap.data.docs.any((element) =>
+                                                                                  element.data()["id"] ==
+                                                                                  snapshot.data.docs[index]["id"]))
+                                                                              ? addToWishList(snapshot.data.docs[index])
+                                                                              : deleteWishlist(snapshot.data.docs[index]);
+                                                                        },
+                                                                      )
 
-                                                                    // Positioned(
-                                                                    //   bottom: 10,
-                                                                    //   right: 0,
-                                                                    //   child: IconButton(
-                                                                    //     onPressed: (){},
-                                                                    //     icon:Icon(Icons.shopping_bag_outlined,color: Colors.black.withOpacity(0.6),size: 30,),
-                                                                    //   ),
-                                                                    // )
-                                                                    )
-                                                                : Positioned(
-                                                                    right: 0,
-                                                                    child:
-                                                                        IconButton(
-                                                                      onPressed:
-                                                                          () {},
-                                                                      icon: FaIcon(
-                                                                          FontAwesomeIcons
-                                                                              .heart),
-                                                                    ),
-                                                                  );
-                                                          }),
-                                                    ],
-                                                  ),
+                                                                      // Positioned(
+                                                                      //   bottom: 10,
+                                                                      //   right: 0,
+                                                                      //   child: IconButton(
+                                                                      //     onPressed: (){},
+                                                                      //     icon:Icon(Icons.shopping_bag_outlined,color: Colors.black.withOpacity(0.6),size: 30,),
+                                                                      //   ),
+                                                                      // )
+                                                                      )
+                                                                  : Positioned(
+                                                                      right: 0,
+                                                                      child:
+                                                                          IconButton(
+                                                                        onPressed:
+                                                                            () {},
+                                                                        icon: FaIcon(
+                                                                            FontAwesomeIcons
+                                                                                .heart),
+                                                                      ),
+                                                                    );
+                                                            }),
+                                                      ],
+                                                    ).box.height(context.percentHeight*19).make(),
+                                                    "${snapshot.data.docs[index]["title"]}"
+                                                    
+                                                     .text.overflow(TextOverflow.ellipsis)
+                                                     .size(18).maxLines(2)
+                                                     .bold.center
+                                                     .make()
+                                                     .pOnly(top: 10),
+                                                  
+                                                  // if(snapshot.data.docs[index]["Subtitle"].isNotEmpty) FittedBox(
+                                                  //     child: "${snapshot.data.docs[index]["Subtitle"]}"
+                                                  //         .text.gray700
+                                                  //         .size(14)
+                                                  //         .semiBold
+                                                  //         .make()
+                                                  //        ,
+                                                  //   ),
+
+                                                    FittedBox(
+                                                        child: "₹${sortPrice(snapshot.data.docs[index]["price"]) ?? ""}"
+                                                          .text.start
+                                                          .size(16)
+                                                          .semiBold
+                                                          .make(),
+                                                    ),
+                                                  ],
+                                                  alignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAlignment:
+                                                      CrossAxisAlignment.center,
                                                 ),
-                                                "${snapshot.data.docs[index]["title"]}"
-                                                    .text
-                                                    .size(20)
-                                                    .bold
-                                                    .make()
-                                                    .pOnly(top: 10),
-                                                "₹${sortPrice(snapshot.data.docs[index]["price"]) ?? ""}"
-                                                    .text
-                                                    .size(18)
-                                                    .semiBold
-                                                    .make()
-                                              ],
-                                              alignment:
-                                                  MainAxisAlignment.center,
-                                              crossAlignment:
-                                                  CrossAxisAlignment.center,
-                                            ),
-                                          ),
-                                      childCount: snapshot == null
-                                          ? 0
-                                          : snapshot.data.docs.length),
-                                )
-                              ],
-                            ),
-                          )
-                            .height(context.screenHeight)
-                            .withDecoration(BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(55),
-                                    topRight: Radius.circular(55))))
-                            .make();
-                  })
-              : "Categories Not Found "
-                  .text
-                  .xl
-                  .make()
-                  .centered()
-                  .pOnly(left: 10, top: 10),
-      floatingActionButton: StreamBuilder<QuerySnapshot>(
+                                              ).pOnly(left:10,right: 10),
+                                          childCount: snapshot == null
+                                              ? 0
+                                              : snapshot.data.docs.length),
+                                    )
+                                  ],
+                                ).box.withDecoration(BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                       55)
+                                )).margin(EdgeInsets.symmetric(horizontal: 13,vertical: 13)).make(),
+                              )
+                                
+                                .make();
+                      }).box.height(context.screenHeight)
+                                .withDecoration(
+                                 
+                                  BoxDecoration(
+                                     boxShadow: [
+                    BoxShadow(
+                      color: Colors.black,
+                      blurRadius: 0.1,
+                      spreadRadius: 1.5,
+                    )],
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(
+                                       55))).margin(EdgeInsets.all(10)).make(),
+
+                                       Positioned(
+                                         bottom: 30,
+                                         right: 30,
+                                                                                child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection("cart")
               .doc(_user.uid)
@@ -273,38 +303,46 @@ class _subSubState extends State<subSub> {
                   )
                 : CircularProgressIndicator().centered();
           }),
+                                       ),
+                ],
+              )
+              : "Categories Not Found "
+                  .text
+                  .xl
+                  .make()
+                  .centered()
+                  .pOnly(left: 10, top: 10),
+    
     );
   }
 
   Widget top(dynamic subCategory, BuildContext context) {
     print(subCategory["title"]);
-    return ZStack(
+    return VStack(
       [
-        Positioned(
-          top: 0,
-          child: VxBox()
-              .height(context.percentHeight * 18)
-              .width(context.screenWidth)
-              .withDecoration(
-                BoxDecoration(
-                  border: Border.all(color: Colors.blueAccent, width: 2),
-                  image: DecorationImage(
-                      image: NetworkImage(subCategory["bg"]),
-                      fit: BoxFit.cover),
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(55),
-                    topRight: Radius.circular(55),
-                  ),
+        VxBox()
+            .height(context.percentHeight * 20)
+            .width(context.screenWidth)
+            .withDecoration(
+              BoxDecoration(
+               
+                image: DecorationImage(
+                    image: NetworkImage(subCategory["bg"]),
+                    fit: BoxFit.cover),
+             
+                borderRadius: BorderRadius.only(
+                   topLeft: Radius.circular(55),
+                topRight: Radius.circular(55),
+                bottomLeft: Radius.circular(55),
+                bottomRight: Radius.circular(55),
                 ),
-              )
-              .make(),
-        ),
-        Positioned(
-          bottom: 5,
-          left: 10,
-          child: HStack(
+              ),
+            )
+            .make(),
+            (context.percentHeight*2).heightBox,
+         HStack(
             [
+             
               ClipOval(
                 child: FadeInImage(
                   placeholder: AssetImage("assets/images/placeholder.jpg"),
@@ -312,7 +350,7 @@ class _subSubState extends State<subSub> {
                     subCategory["image"],
                   ),
                   fit: BoxFit.cover,
-                ).box.color(Colors.white).height(100).width(100).make(),
+                ).box.color(Colors.white).height(context.percentHeight*12).width(context.percentHeight*12).make(),
               ),
               // CircleAvatar(
               //   backgroundColor: Colors.white,
@@ -322,33 +360,59 @@ class _subSubState extends State<subSub> {
               //     backgroundImage: NetworkImage(subCategory["image"]),
               //   ),
               // ),
+              SizedBox(width: 10),
               Column(
                 children: [
-                  " ${subCategory["title"]}"
+                  "${subCategory["title"]}"
                       .text
-                      .xl3
+                      .size(context.percentHeight*3)
                       .bold
                       .start
                       .make()
-                      .pOnly(top: 20),
-                  VxBox(
-                          child: "  ${subCategory["subTitle"]}"
-                              .text
-                              .size(14)
-                              .gray700
-                              .start
-                              .make())
-                      .width(context.percentWidth * 70)
-                      .make()
+                      .box.width(context.percentWidth * 50).make(),
+                     RichText(
+              text: TextSpan(children: [
+            TextSpan(
+                text: "Address :-\u200B",
+                style: TextStyle(color: Colors.black,
+                fontWeight:FontWeight.w700,
+                 fontSize: 14)),
+            TextSpan(
+              text: "${subCategory["subTitle"]}",
+              style: TextStyle(
+                  color: Colors.black,
+                
+                  fontSize:14 ),
+            ),
+            
+          ])).box.width(context.percentWidth*50).make(),
+
+
+                  // Row(
+                  //     children: [
+                  //       "Address :- ".text.semiBold.make(),
+                  //       VxBox(
+                  //                 child: "${subCategory["subTitle"]}"
+                  // .text.maxLines(3)
+                  // .size(14)
+                  // .gray700
+                  // .start
+                  // .make())
+                              
+                  //            .width(context.percentWidth*43) .make(),
+                  //     ],
+                  //     mainAxisAlignment: MainAxisAlignment.start,
+                  //     crossAxisAlignment: CrossAxisAlignment.start
+                  //   )
                 ],
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
               ),
             ],
-            alignment: MainAxisAlignment.end,
+            alignment: MainAxisAlignment.start,
             crossAlignment: CrossAxisAlignment.start,
           ),
-        )
+      
       ],
     );
   }
@@ -356,7 +420,9 @@ class _subSubState extends State<subSub> {
   Future<QuerySnapshot> getSubCategory() async {
     QuerySnapshot result = await FirebaseFirestore.instance
         .collection("SubSubCat")
-        .where("parent", isEqualTo: widget.subCategory["id"])
+        .where("parent", isEqualTo: widget.subCategory["id"]
+        
+        )
         .get();
     print(result.docs[0]["id"]);
 
@@ -371,6 +437,8 @@ class _subSubState extends State<subSub> {
             child: _querySnapshot != null
                 ? _querySnapshot.docs.isNotEmpty
                     ? ListView.builder(
+                       physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                                 
                         scrollDirection: Axis.horizontal,
                         itemCount: _querySnapshot.docs.length,
                         itemBuilder: (context, index) {
@@ -395,7 +463,7 @@ class _subSubState extends State<subSub> {
                                     backgroundImage: NetworkImage(
                                         _querySnapshot.docs[index]["image"]),
                                   ),
-                                ).pOnly(left: 10, bottom: 5),
+                                ).pOnly(bottom:5),
                                 "${_querySnapshot.docs[index]["title"]}"
                                     .text
                                     .xl
@@ -403,7 +471,7 @@ class _subSubState extends State<subSub> {
                                     .semiBold
                                     .make()
                               ],
-                            ),
+                            ).pOnly(left: 10),
                           );
                         },
                       )

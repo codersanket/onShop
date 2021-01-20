@@ -51,7 +51,14 @@ class _loginScreenState extends State<loginScreen> {
                 textField(
                   hint: "Password-पासवर्ड टाईप करा",
                   textEditingController: _passwordController,
-                  onValueChanged: (value) {},
+                  validator: (value){
+                    if(value.legth!=10){
+                      return "Valid Number";
+                    }
+                  },
+                  onValueChanged: (value) {
+                    
+                  },
                   isPassword: true,
                 ).p8(),
                 AnimatedContainer(

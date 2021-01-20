@@ -7,6 +7,7 @@ import 'package:onshop/widgets/appBar.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:onshop/screens/detailsPage/detailPage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:sort_price/sort_price.dart';
 
 class wishListScreen extends StatefulWidget {
   static const routeName = '/wishList';
@@ -67,7 +68,7 @@ class _wishListScreenState extends State<wishListScreen> {
                                         .collection("wishlist")
                                         .doc(_user.uid)
                                         .collection("Items")
-                                        .doc(snapshot.data.docs[index]["title"])
+                                        .doc(snapshot.data.docs[index]["id"])
                                         .delete();
                                   },
                                 ),
@@ -77,6 +78,7 @@ class _wishListScreenState extends State<wishListScreen> {
                                     .xl
                                     .semiBold
                                     .make(),
+                                    subtitle: "₹${sortPrice(snapshot.data.docs[index]["price"])}".text.make(),
                                 leading: CircleAvatar(
                                   backgroundImage: NetworkImage(
                                       snapshot.data.docs[index]["image"]["0"]),

@@ -118,7 +118,7 @@ class _cartScreenState extends State<cartScreen> {
                                       ),
                                     )
                                         .box
-                                        .height(context.percentHeight * 20)
+                                        .height(context.percentHeight * 25)
                                         .make();
                                   },
                                 ),

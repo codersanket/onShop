@@ -61,132 +61,134 @@ class _usersState extends State<users> {
     return Scaffold(
       appBar: appBar(),
       body: document != null
-          ? Column(
-                  children: [
-                  (context.percentHeight * 4).heightBox,
-                  Card(
-                      elevation: 6,
+          ? SingleChildScrollView(
                       child: Column(
-                              children: [
-                            "नमस्ते ! ${document.exists ? document["Full Name"] : "User"}"
-                                .text
-                                .xl2
-                                .bold
-                                .make()
-                                .pOnly(left: 20, bottom: 10),
-                            Divider(
-                              thickness: 1.5,
-                            ),
-                            ListTile(
-                                onTap: () => Navigator.of(context).push(
+                    children: [
+                    (context.percentHeight * 4).heightBox,
+                    Card(
+                        elevation: 6,
+                        child: Column(
+                                children: [
+                              "नमस्ते ! ${document.exists ? document["Full Name"] : "User"}"
+                                  .text
+                                  .xl2
+                                  .bold
+                                  .make()
+                                  .pOnly(left: 20, bottom: 10),
+                              Divider(
+                                thickness: 1.5,
+                              ),
+                              ListTile(
+                                  onTap: () => Navigator.of(context).push(
+                                      CupertinoPageRoute(
+                                          builder: (context) => editUser())),
+                                  title: "Edit Details".text.make(),
+                                  trailing:
+                                      Icon(Icons.edit, color: Colors.blueAccent)),
+                              Divider(
+                                thickness: 1,
+                              ),
+                              ListTile(
+                                onTap: () => Navigator.push(
+                                    context,
                                     CupertinoPageRoute(
-                                        builder: (context) => editUser())),
-                                title: "Edit Details".text.make(),
-                                trailing:
-                                    Icon(Icons.edit, color: Colors.blueAccent)),
-                            Divider(
-                              thickness: 1,
-                            ),
-                            ListTile(
-                              onTap: () => Navigator.push(
-                                  context,
-                                  CupertinoPageRoute(
-                                      builder: (context) => pastOrders())),
-                              title: "Orders".text.make(),
-                              trailing: FaIcon(FontAwesomeIcons.shoppingBag,
-                                  color: Colors.blueAccent),
-                            )
-                          ],
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start)
-                          .box
-                          .make()),
-                  // ClipOval(
-                  //   child: FadeInImage(
-                  //     image: NetworkImage(_user.photoURL ??
-                  //         "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F7%2F7e%2FCircle-icons-profile.svg%2F1200px-Circle-icons-profile.svg.png&f=1&nofb=1"),
-                  //     placeholder: AssetImage("assets/images/placeholder.jpg"),
-                  //   ).box.height(100).width(100).shadowLg.make(),
-                  // ).centered(),
-                  // "${_user.displayName}".text.xl.bold.make(),
+                                        builder: (context) => pastOrders())),
+                                title: "Orders".text.make(),
+                                trailing: FaIcon(FontAwesomeIcons.shoppingBag,
+                                    color: Colors.blueAccent),
+                              )
+                            ],
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start)
+                            .box
+                            .make()),
+                    // ClipOval(
+                    //   child: FadeInImage(
+                    //     image: NetworkImage(_user.photoURL ??
+                    //         "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F7%2F7e%2FCircle-icons-profile.svg%2F1200px-Circle-icons-profile.svg.png&f=1&nofb=1"),
+                    //     placeholder: AssetImage("assets/images/placeholder.jpg"),
+                    //   ).box.height(100).width(100).shadowLg.make(),
+                    // ).centered(),
+                    // "${_user.displayName}".text.xl.bold.make(),
 
-                  Card(
+                    Card(
+                        elevation: 6,
+                        child: VxBox(
+                            child: VStack([
+                          "Discuss Your Questions"
+                              .text
+                              .bold
+                              .xl
+                              .make()
+                              .pOnly(left: 20, top: 10),
+                          Divider(
+                            thickness: 1.5,
+                            color: Colors.grey,
+                          ),
+                          ListTile(
+                            onTap: () => _makingPhoneCall(true),
+                            title: "Email Us".text.make(),
+                            trailing: Icon(Icons.email, color: Colors.blueAccent),
+                            subtitle: "contact@onmarket.app".text.make(),
+                          ),
+                          Divider(
+                            thickness: 1,
+                          ),
+                          ListTile(
+                            onTap: () => _makingPhoneCall(false),
+                            title: "Call Us".text.make(),
+                            trailing: Icon(Icons.call, color: Colors.blueAccent),
+                            subtitle: "${tempData["num"]}".text.make(),
+                          ),
+                          ListTile(
+                            onTap: () async {
+                              await launch("mailto:sell@onMarket.app");
+                            },
+                            title: "For Business Enquiry".text.make(),
+                            subtitle: "sell@onMarket.app".text.make(),
+                            trailing: FaIcon(FontAwesomeIcons.handshake,
+                                color: Colors.blueAccent),
+                          )
+                        ])).make()),
+                    Card(
                       elevation: 6,
-                      child: VxBox(
-                          child: VStack([
-                        "Discuss Your Questions"
-                            .text
-                            .bold
-                            .xl
-                            .make()
-                            .pOnly(left: 20, top: 10),
-                        Divider(
-                          thickness: 1.5,
-                          color: Colors.grey,
-                        ),
-                        ListTile(
-                          onTap: () => _makingPhoneCall(true),
-                          title: "Email Us".text.make(),
-                          trailing: Icon(Icons.email, color: Colors.blueAccent),
-                          subtitle: "contact@onmarket.app".text.make(),
-                        ),
-                        Divider(
-                          thickness: 1,
-                        ),
-                        ListTile(
-                          onTap: () => _makingPhoneCall(false),
-                          title: "Call Us".text.make(),
-                          trailing: Icon(Icons.call, color: Colors.blueAccent),
-                          subtitle: "${tempData["num"]}".text.make(),
-                        ),
-                        ListTile(
-                          onTap: () async {
-                            await launch("mailto:sell@onMarket.app");
-                          },
-                          title: "For Business Enquiry".text.make(),
-                          subtitle: "sell@onMarket.app".text.make(),
-                          trailing: FaIcon(FontAwesomeIcons.handshake,
-                              color: Colors.blueAccent),
-                        )
-                      ])).make()),
-                  Card(
-                    elevation: 6,
-                    child: ListTile(
-                      onTap: () async {
-                        await launch(
-                            "https://www.privacypolicygenerator.info/live.php?token=NnAMnMgjYe0SsRh5qziRRRxobZeSeiJq");
-                      },
-                      title: "Privacy".text.bold.make(),
-                      trailing: Icon(Icons.shield, color: Colors.blueAccent),
-                    ),
-                  ),
-                  Card(
-                    elevation: 6,
-                    child: ListTile(
-                      onTap: () {
-                        auth.signOut(context);
-                      },
-                      title: "LogOut".text.bold.make(),
-                      trailing: Icon(
-                        Icons.logout,
-                        color: Colors.blueAccent,
+                      child: ListTile(
+                        onTap: () async {
+                          await launch(
+                              "https://www.privacypolicygenerator.info/live.php?token=NnAMnMgjYe0SsRh5qziRRRxobZeSeiJq");
+                        },
+                        title: "Privacy".text.bold.make(),
+                        trailing: Icon(Icons.shield, color: Colors.blueAccent),
                       ),
                     ),
+                    Card(
+                      elevation: 6,
+                      child: ListTile(
+                        onTap: () {
+                          auth.signOut(context);
+                        },
+                        title: "LogOut".text.bold.make(),
+                        trailing: Icon(
+                          Icons.logout,
+                          color: Colors.blueAccent,
+                        ),
+                      ),
+                    ),
+                  ],
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start)
+                .box
+                
+                .withDecoration(
+                  BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30)),
                   ),
-                ],
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start)
-              .box
-              .height(context.screenHeight)
-              .withDecoration(
-                BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30)),
-                ),
-              )
-              .make()
+                )
+                .make(),
+          )
           : CircularProgressIndicator().centered(),
     );
   }

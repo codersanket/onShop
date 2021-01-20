@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "479085757004-o6c6v19l5enl93sad399fqiitoqvd169.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.onmarket.store",
+            "certificate_hash": "9b615fe9afc876ea734cce0ba8e821e18aedc3b8"
+          }
+        },
+        {
           "client_id": "479085757004-qkqqqr6hhf5ctitpf3s8sv74ls8gn8ls.apps.googleusercontent.com",
           "client_type": 3
         }

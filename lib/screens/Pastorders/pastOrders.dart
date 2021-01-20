@@ -40,6 +40,7 @@ class _pastOrdersState extends State<pastOrders> {
           return snapshot.hasData
               ? snapshot.data.docs.isNotEmpty
                   ? ListView.builder(
+                    cacheExtent: 9999,
                       itemCount: snapshot.data.docs.length,
                       itemBuilder: (context, index) {
                         return VxBox(
@@ -63,7 +64,7 @@ class _pastOrdersState extends State<pastOrders> {
                                 subtitle: Column(
                                   children: [
                                     "Order Id: ${snapshot.data.docs[index]["Order Id"]}"
-                                        .text
+                                        .text.lg
                                         .make(),
                                     RichText(
                                       text: TextSpan(
@@ -125,7 +126,7 @@ class _pastOrdersState extends State<pastOrders> {
                           ),
                         )
                             .white
-                            .height(context.percentHeight * 15)
+                            .height(context.percentHeight *15)
                             .shadow2xl
                             .make()
                             .p2();
@@ -137,13 +138,14 @@ class _pastOrdersState extends State<pastOrders> {
       )
           .box
           .padding(EdgeInsets.all(15))
+          .margin(EdgeInsets.only(top: 10, left: 7, right: 7, bottom: 10))
           .withDecoration(
+            
             BoxDecoration(
               color: Colors.white,
               border: Border.all(color: Colors.grey.withOpacity(0.5), width: 3),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(55),
-                topRight: Radius.circular(55),
+              borderRadius: BorderRadius.circular(
+              55
               ),
             ),
           )
