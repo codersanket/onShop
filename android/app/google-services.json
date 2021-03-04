@@ -15,7 +15,23 @@
       },
       "oauth_client": [
         {
-          "client_id": "479085757004-o6c6v19l5enl93sad399fqiitoqvd169.apps.googleusercontent.com",
+          "client_id": "479085757004-1iclj4l84ef8uhauqdlid2o202c9a60g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.onmarket.store",
+            "certificate_hash": "bd7af56ba7bf4f1b001955864a5e01ad50ff05a0"
+          }
+        },
+        {
+          "client_id": "479085757004-b8a1ht3klf2tqaql34gfhlp3q788n1dv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.onmarket.store",
+            "certificate_hash": "53e61de84edf89cb00cfbf2bc63435c1a325b6de"
+          }
+        },
+        {
+          "client_id": "479085757004-bc5r66h7gtasho2rcfjiv6ve8vqrhj2g.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "app.onmarket.store",
@@ -74,20 +90,12 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:479085757004:android:e162b68e9277037c54aae9",
+        "mobilesdk_app_id": "1:479085757004:android:db84a07053f63ac354aae9",
         "android_client_info": {
-          "package_name": "me.sanketbabar.onshop"
+          "package_name": "store.onmarket.app"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "479085757004-f3r4dq9i78q4rh3iiqr7v6jsqsrbofrc.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "me.sanketbabar.onshop",
-            "certificate_hash": "8343c7ee9756541101a7a2981b64f4df80ca76e1"
-          }
-        },
         {
           "client_id": "479085757004-qkqqqr6hhf5ctitpf3s8sv74ls8gn8ls.apps.googleusercontent.com",
           "client_type": 3

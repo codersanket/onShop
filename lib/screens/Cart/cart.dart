@@ -99,7 +99,7 @@ class _cartScreenState extends State<cartScreen> {
                                                   .doc(_user.uid)
                                                   .collection("Items")
                                                   .doc(snapshot.data.docs[index]
-                                                      ["title"])
+                                                      ["id"])
                                                   .delete();
                                             },
                                             child: "Delete"

@@ -45,11 +45,14 @@ android {
 
     lintOptions {
         disable 'InvalidPackage'
+        checkReleaseBuilds false
+        abortOnError false
+
     }
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "app.onmarket.store"
+        applicationId "store.onmarket.app"
         minSdkVersion 21
         multiDexEnabled true
         targetSdkVersion 29

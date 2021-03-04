@@ -100,18 +100,22 @@ class _orderCompleteState extends State<orderComplete> {
         .set(userDeatils.data());
 
     QuerySnapshot snaps = await FirebaseFirestore.instance
-        .collection("SubCategory")
-        .where("parent", isEqualTo: widget.documentSnapshot["Pparent"])
+        .collection("SubSubCat")
+        .where("id", isEqualTo: widget.documentSnapshot["parent"])
         .get();
-    snaps.docs.forEach((element) {
-      FirebaseFirestore.instance
+
+        
+       
+    
+    snaps.docs.forEach((element)async {
+      QuerySnapshot temp=await FirebaseFirestore.instance.collection("SubCategory").where("id", isEqualTo: element.data()["parent"]).get();
+
+      temp.docs.forEach((element) { 
+         FirebaseFirestore.instance
           .collection("SubCategory")
           .doc(element.id)
           .update({"Torders": element.data()["Torders"] + 1});
-    });
-
-    snaps.docs.forEach((element) {
-      FirebaseFirestore.instance
+          FirebaseFirestore.instance
           .collection("Past")
           .doc(element.data()["title"])
           .set(element.data());
@@ -127,7 +131,29 @@ class _orderCompleteState extends State<orderComplete> {
           .collection("Temp")
           .doc("orderId")
           .update({"order": id});
+
+      });
+     
     });
+
+    // pastCat.docs.forEach((element) {
+    //   FirebaseFirestore.instance
+    //       .collection("Past")
+    //       .doc(element.data()["title"])
+    //       .set(element.data());
+    //   FirebaseFirestore.instance
+    //       .collection("Past")
+    //       .doc(element.data()["title"])
+    //       .update({"Torders": DateTime.now()});
+    //   FirebaseFirestore.instance
+    //       .collection("AllOrders")
+    //       .doc(orderId.toString())
+    //       .update({"Total Price": widget.totalPrice, "Total Items": 1});
+    //   FirebaseFirestore.instance
+    //       .collection("Temp")
+    //       .doc("orderId")
+    //       .update({"order": id});
+    // });
     FirebaseFirestore.instance
         .collection("Temp")
         .doc("orderId")
@@ -228,18 +254,23 @@ class _orderCompleteState extends State<orderComplete> {
           .doc(orderId.toString())
           .set(userDaetils.data());
 
-      QuerySnapshot snaps = await FirebaseFirestore.instance
+            QuerySnapshot snaps = await FirebaseFirestore.instance
+        .collection("SubSubCat")
+        .where("id", isEqualTo: element.data()["parent"])
+        .get();
+
+        
+       
+    
+    snaps.docs.forEach((element)async {
+      QuerySnapshot temp=await FirebaseFirestore.instance.collection("SubCategory").where("id", isEqualTo: element.data()["parent"]).get();
+
+      temp.docs.forEach((element) { 
+         FirebaseFirestore.instance
           .collection("SubCategory")
-          .where("parent", isEqualTo: element.data()["Pparent"])
-          .get();
-      snaps.docs.forEach((element) {
-        FirebaseFirestore.instance
-            .collection("SubCategory")
-            .doc(element.id)
-            .update({"Torders": element.data()["Torders"] + 1});
-      });
-      snaps.docs.forEach((element) {
-        FirebaseFirestore.instance
+          .doc(element.id)
+          .update({"Torders": element.data()["Torders"] + 1});
+          FirebaseFirestore.instance
             .collection("Past")
             .doc(element.data()["title"])
             .set(element.data());
@@ -258,7 +289,44 @@ class _orderCompleteState extends State<orderComplete> {
             .collection("Temp")
             .doc("orderId")
             .update({"order": id});
+
       });
+     
+    });
+
+      // QuerySnapshot snaps = await FirebaseFirestore.instance
+      //     .collection("SubCategory")
+      //     .where("parent", isEqualTo: element.data()["Pparent"])
+      //     .get();
+      // snaps.docs.forEach((element) {
+
+        
+      //   FirebaseFirestore.instance
+      //       .collection("SubCategory")
+      //       .doc(element.id)
+      //       .update({"Torders": element.data()["Torders"] + 1});
+      // });
+      // snaps.docs.forEach((element) {
+      //   FirebaseFirestore.instance
+      //       .collection("Past")
+      //       .doc(element.data()["title"])
+      //       .set(element.data());
+      //   FirebaseFirestore.instance
+      //       .collection("Past")
+      //       .doc(element.data()["title"])
+      //       .update({"Torders": DateTime.now()});
+      //   FirebaseFirestore.instance
+      //       .collection("AllOrders")
+      //       .doc(orderId.toString())
+      //       .update({
+      //     "Total Price": widget.totalPrice,
+      //     "Total Items": i.docs.length
+      //   });
+      //   FirebaseFirestore.instance
+      //       .collection("Temp")
+      //       .doc("orderId")
+      //       .update({"order": id});
+      // });
     });
     // backToPage(context);
   }

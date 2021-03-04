@@ -1,4 +1,4 @@
-package app.onmarket.store
+package store.onmarket.app
 
 import io.flutter.embedding.android.FlutterActivity
 

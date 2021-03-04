@@ -69,7 +69,7 @@ class _wishListScreenState extends State<wishListScreen> {
                                         .doc(_user.uid)
                                         .collection("Items")
                                         .doc(snapshot.data.docs[index]["id"])
-                                        .delete();
+                                        .delete();     
                                   },
                                 ),
                                 title: snapshot.data.docs[index]["title"]
